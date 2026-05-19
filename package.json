@@ -1,0 +1,19 @@
+{
+  "name": "api_clientes",
+  "version": "1.0.0",
+  "description": "Asignatura: CIB302 - Taller de Plataformas Web | Unidad: 3 - Introducción a los sistemas de bases de datos | Semana: 9",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mysql2": "^3.22.3"
+  }
+}
