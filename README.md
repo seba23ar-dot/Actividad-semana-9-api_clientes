@@ -105,7 +105,7 @@ La entidad central es `cliente`, con la siguiente estructura:
 |---|---|---|---|
 | id_cliente | INT | PK, AUTO_INCREMENT | MySQL genera el ID automáticamente |
 | nombre | VARCHAR(100) | NOT NULL | Campo obligatorio en el modelo de negocio |
-| email | VARCHAR(150) | NOT NULL, UNIQUE | Identifica unívocamente al cliente. La restricción UNIQUE hace posible detectar duplicados con 409 |
+| email | VARCHAR(150) | NOT NULL, UNIQUE (constraint nombrada uq_cliente_email) |  Identifica unívocamente al cliente. La restricción UNIQUE hace posible detectar duplicados con 409 |
 | telefono | VARCHAR(20) | NOT NULL | VARCHAR porque los teléfonos internacionales incluyen +, guiones y espacios |
 | created_at | DATETIME | DEFAULT CURRENT_TIMESTAMP | MySQL asigna la marca temporal automáticamente al crear el registro |
 
