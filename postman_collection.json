@@ -1,0 +1,252 @@
+{
+  "info": {
+    "name": "CIB302 – API REST Clientes",
+    "description": "Colección de pruebas para la API REST de gestión de clientes. Cubre todas las operaciones CRUD y los escenarios de error esperados.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Verificar API activa",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/",
+          "host": ["{{base_url}}"],
+          "path": [""]
+        },
+        "description": "Confirma que el servidor está en ejecución. Respuesta esperada: 200 OK con mensaje de bienvenida."
+      }
+    },
+    {
+      "name": "2. GET – Listar todos los clientes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/clientes",
+          "host": ["{{base_url}}"],
+          "path": ["api", "clientes"]
+        },
+        "description": "Obtiene todos los clientes registrados. Respuesta esperada: 200 OK con arreglo de clientes."
+      }
+    },
+    {
+      "name": "3. GET – Obtener cliente por ID (existente)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/clientes/1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "clientes", "1"]
+        },
+        "description": "Obtiene el cliente con id_cliente = 1. Respuesta esperada: 200 OK."
+      }
+    },
+    {
+      "name": "4. GET – Obtener cliente por ID (inexistente → 404)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/clientes/9999",
+          "host": ["{{base_url}}"],
+          "path": ["api", "clientes", "9999"]
+        },
+        "description": "Intenta obtener un cliente inexistente. Respuesta esperada: 404 Not Found."
+      }
+    },
+    {
+      "name": "5. GET – ID inválido (no numérico → 400)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/clientes/abc",
+          "host": ["{{base_url}}"],
+          "path": ["api", "clientes", "abc"]
+        },
+        "description": "Intenta obtener un cliente con un ID no numérico. Respuesta esperada: 400 Bad Request."
+      }
+    },
+    {
+      "name": "6. POST – Crear cliente (éxito → 201)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"María González\",\n  \"email\": \"maria.gonzalez@email.com\",\n  \"telefono\": \"+56934567890\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/clientes",
+          "host": ["{{base_url}}"],
+          "path": ["api", "clientes"]
+        },
+        "description": "Crea un nuevo cliente con datos válidos. Respuesta esperada: 201 Created con los datos del cliente creado."
+      }
+    },
+    {
+      "name": "7. POST – Email duplicado (409 Conflict)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Otro Usuario\",\n  \"email\": \"maria.gonzalez@email.com\",\n  \"telefono\": \"+56911223344\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/clientes",
+          "host": ["{{base_url}}"],
+          "path": ["api", "clientes"]
+        },
+        "description": "Intenta crear un cliente con un correo ya registrado. Respuesta esperada: 409 Conflict."
+      }
+    },
+    {
+      "name": "8. POST – Datos incompletos (400 Bad Request)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Sin Email\",\n  \"telefono\": \"+56900000000\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/clientes",
+          "host": ["{{base_url}}"],
+          "path": ["api", "clientes"]
+        },
+        "description": "Intenta crear un cliente sin el campo email. Respuesta esperada: 400 Bad Request con detalle de errores."
+      }
+    },
+    {
+      "name": "9. POST – Email con formato inválido (400 Bad Request)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Pedro Ramos\",\n  \"email\": \"correo-invalido\",\n  \"telefono\": \"+56944556677\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/clientes",
+          "host": ["{{base_url}}"],
+          "path": ["api", "clientes"]
+        },
+        "description": "Intenta crear un cliente con un email sin formato válido. Respuesta esperada: 400 Bad Request."
+      }
+    },
+    {
+      "name": "10. PUT – Actualizar cliente (éxito → 200)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"María González Actualizada\",\n  \"email\": \"maria.actualizada@email.com\",\n  \"telefono\": \"+56999887766\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/clientes/1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "clientes", "1"]
+        },
+        "description": "Actualiza todos los campos del cliente con id 1. Respuesta esperada: 200 OK con datos actualizados."
+      }
+    },
+    {
+      "name": "11. PUT – Cliente inexistente (404 Not Found)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Fantasma\",\n  \"email\": \"fantasma@email.com\",\n  \"telefono\": \"+56900000000\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/clientes/9999",
+          "host": ["{{base_url}}"],
+          "path": ["api", "clientes", "9999"]
+        },
+        "description": "Intenta actualizar un cliente que no existe. Respuesta esperada: 404 Not Found."
+      }
+    },
+    {
+      "name": "12. DELETE – Eliminar cliente (éxito → 200)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/clientes/3",
+          "host": ["{{base_url}}"],
+          "path": ["api", "clientes", "3"]
+        },
+        "description": "Elimina el cliente con id_cliente = 3. Respuesta esperada: 200 OK con mensaje de confirmación."
+      }
+    },
+    {
+      "name": "13. DELETE – Cliente inexistente (404 Not Found)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/clientes/9999",
+          "host": ["{{base_url}}"],
+          "path": ["api", "clientes", "9999"]
+        },
+        "description": "Intenta eliminar un cliente que no existe. Respuesta esperada: 404 Not Found."
+      }
+    },
+    {
+      "name": "14. Ruta inexistente (404 global)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/productos",
+          "host": ["{{base_url}}"],
+          "path": ["api", "productos"]
+        },
+        "description": "Accede a una ruta no definida en la API. Respuesta esperada: 404 con mensaje descriptivo."
+      }
+    }
+  ]
+}
